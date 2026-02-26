@@ -42,6 +42,14 @@ export default function StudentTabLayout() {
         }}
       />
       <Tabs.Screen
+        name="subject-details"
+        options={{
+          href: null, // Мәзірде көрсетілмейді
+          headerTitle: "Детали балла",
+          headerShown: true,
+        }}
+      />
+      <Tabs.Screen
         name="schedule"
         options={{
           title: 'Расписание',

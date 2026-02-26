@@ -1,7 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-const API_URL = 'http://172.20.10.2:3000'; 
+const API_URL = 'https://uni-back.onrender.com'; 
 
 // --- Платформо-зависимое хранилище ---
 const storage = {
@@ -419,6 +419,23 @@ export const api = {
     } catch (error) {
       console.error('generateSchedule error:', error);
       throw error;
+    }
+  },
+
+  // --- СТУДЕНТ: ПӘН БОЙЫНША АПТАЛЫҚ БАЛЛДАРДЫ АЛУ ---
+  async getSubjectWeeklyMarks(studentId: string, subjectId: string) {
+    try {
+      const response = await fetch(`${API_URL}/api/student/subject-marks/${studentId}/${subjectId}`);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Баллдарды жүктеу мүмкін болмады');
+      }
+      
+      return await response.json();
+    } catch (error: any) {
+      console.error('getSubjectWeeklyMarks error:', error);
+      return []; // Қате болған жағдайда бос тізім қайтарамыз
     }
   },
 

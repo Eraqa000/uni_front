@@ -42,7 +42,7 @@ useEffect(() => {
       if (!inViceDeanGroup) router.replace('/vice-dean');
     } 
     else if (role === 'преподаватель') {
-      if (!inStudentGroup) router.replace('/teacher/dashboard');
+      if (!inStudentGroup) router.replace('/teacher');
     }
     else if (role === 'студент') {
       if (!inStudentGroup) router.replace('/student');

@@ -72,7 +72,9 @@
         const marksPayload = {
           subject_id: subjectId as string,
           week_number: 1, // Болашақта бұл мәнді динамикалық түрде алуға болады
-          marks: Object.keys(marks).map((id: string) => ({
+          marks: Object.keys(marks)
+            .filter(id => marks[id].seminar !== '' || marks[id].lecture !== '' || marks[id].srs !== '')         
+            .map((id: string) => ({
               student_id: id,
               seminar_mark: parseInt(marks[id].seminar) || 0,
               lecture_mark: parseInt(marks[id].lecture) || 0,

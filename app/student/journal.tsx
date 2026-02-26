@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, SafeAreaView, ActivityIndicator, TouchableOpacity, RefreshControl } from 'react-native';
+import { useRouter } from 'expo-router';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView, ActivityIndicator, TouchableOpacity, RefreshControl, Alert } from 'react-native';
 import { api } from '../../lib/api';
 import { useAuth } from '../../contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,6 +10,7 @@ export default function Journal() {
   const [marks, setMarks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (user?.id) loadMarks();
@@ -49,7 +51,27 @@ export default function Journal() {
           <Text style={styles.emptyText}>Предметы еще не назначены</Text>
         ) : (
           marks.map((item) => (
-            <TouchableOpacity key={item.subject_id} style={styles.card} activeOpacity={0.8}>
+            <TouchableOpacity 
+            
+              key={item.subject_id} 
+              style={styles.card} 
+              activeOpacity={0.8}
+              onPress={() => {
+                console.log("Таңдалған пән ID-і:", item.subject_id); // Терминалдан тексер
+  
+                if (!item.subject_id) {
+                  Alert.alert("Қате", "Пәннің идентификаторы табылмады");
+                  return;
+                }
+                router.push({
+                pathname: "/student/subject-details",
+                params: { 
+                  subjectId: item.subject_id, 
+                  subjectName: item.subject_name,
+                  studentId: user?.id 
+                }
+              })}}
+            >
               <View style={styles.cardContent}>
                 <Text style={styles.subjectName}>{item.subject_name}</Text>
                 <View style={styles.marksRow}>
